@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:protfolio/core/app_color.dart';
+import 'package:protfolio/core/components/custom_drawer_widget.dart';
 import 'package:protfolio/core/components/custom_text.dart';
+import 'package:protfolio/core/constant/fontsize_constant.dart';
 import 'package:protfolio/core/constant/padding_constant.dart';
 import 'package:protfolio/core/constant/screen_helper.dart';
-import 'package:protfolio/core/constant/text_style_constant.dart';
+import 'package:protfolio/core/utils/constant_variable.dart';
+import 'package:protfolio/views/widget/drawer_card_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoBackgroundPage extends StatefulWidget {
@@ -37,20 +40,12 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
     _controller.dispose(); // Dispose the controller when done
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer:Drawer(
-        child: Column(
-          spacing: 16,
-          children: [ CustomText(
-              text: 'About', style: poppinsSemiBold, fontSize: 16),
-            CustomText(
-                text: 'Skill', style: poppinsSemiBold, fontSize: 16),
-            CustomText(
-                text: 'Contact', style: poppinsSemiBold, fontSize: 16),],
-        ),
-      ),
+      key: _scaffoldKey,
+      endDrawer: CustomDrawer(),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -75,7 +70,7 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
             },
           ),
           Padding(
-            padding:ScreenHelper.isMobile(context)? padding12:padding24,
+            padding: responsivePadding12(context),
             child: Column(
               children: [
                 SizedBox(
@@ -84,42 +79,60 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                 Row(
                   spacing: 16,
                   children: [
-                   Expanded(
-                     child: Row(spacing: 6,
-                       children: [
-                       Text('Sadia',style: TextStyle(
-                         fontSize: 26,
-                         fontFamily: 'ProtestRiot',
-                         fontWeight: FontWeight.w400,
-                         color: AppColors.kTextColor,
-                       ),),
-                       Text('Bennthe',style: TextStyle(
-                           fontSize: 26,
-                           fontFamily: 'ProtestRiot',
-                           fontWeight: FontWeight.w400,
-                           color: AppColors.kPrimaryColor,
-                           shadows: [Shadow(color: AppColors.kPrimaryColor,blurRadius:9)]),),
-                     ],),
-                   ),
+                    Expanded(
+                      child: Row(
+                        spacing: 6,
+                        children: [
+                          Text(
+                            'Sadia',
+                            style: TextStyle(
+                              fontSize: responsiveFontSize24(context),
+                              fontFamily: 'ProtestRiot',
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.kTextColor,
+                            ),
+                          ),
+                          Text(
+                            'Bennthe',
+                            style: TextStyle(
+                                fontSize:  responsiveFontSize24(context),
+                                fontFamily: 'ProtestRiot',
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.kPrimaryColor,
+                                shadows: [
+                                  Shadow(
+                                      color: AppColors.kPrimaryColor,
+                                      blurRadius: 9)
+                                ]),
+                          ),
+                        ],
+                      ),
+                    ),
                     // Spacer(),
-                   ScreenHelper.isMobile(context)?
-                       Builder(
-                         builder: (context) {
-                           return IconButton(onPressed: () {
-                             Scaffold.of(context).openDrawer();
-                           }, icon: Icon(Icons.menu,color: AppColors.kTextColor,size: 20,));
-                         }
-                       ): Row(
-                      spacing: 12,children: [
-                      CustomText(
-                          text: 'About', style: poppinsSemiBold, fontSize: 16),
-                      CustomText(
-                          text: 'Skill', style: poppinsSemiBold, fontSize: 16),
-                      CustomText(
-                          text: 'Contact', style: poppinsSemiBold, fontSize: 16),
-                    ],)
+                    ScreenHelper.isMobile(context)
+                        ? Builder(builder: (context) {
+                            return IconButton(
+                                onPressed: () {
+                                  _scaffoldKey.currentState!.openEndDrawer();
+                                },
+                                icon: Icon(
+                                  Icons.menu,
+                                  color: AppColors.kTextColor,
+                                  size: 20,
+                                ));
+                          })
+                        : Row(
+                            spacing: 12,
+                            children: List.generate(
+                              drawerList.length,
+                              (index) => DrawerCardWidget(index: index,),
+                            ),
+                          )
                   ],
                 ),
+
+                CustomText(text: 'Hi, It\'s Sadia'),
+
               ],
             ),
           )
@@ -128,3 +141,7 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
     );
   }
 }
+
+
+
+
