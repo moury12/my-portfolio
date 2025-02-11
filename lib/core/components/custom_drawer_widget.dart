@@ -13,7 +13,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Padding(
-        padding: responsivePadding12(context),
+        padding: padding12(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16,

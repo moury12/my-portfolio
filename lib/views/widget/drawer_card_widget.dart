@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/components/custom_text.dart';
 import 'package:protfolio/core/constant/fontsize_constant.dart';
 import 'package:protfolio/core/constant/text_style_constant.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/app_color.dart';
 import 'package:protfolio/core/constant/screen_helper.dart';
 
@@ -34,9 +35,9 @@ class _ProfileCircleImageState extends State<ProfileCircleImage> {
             'assets/images/profile_img.jpg',
             height:ScreenHelper.isMobile(context)
                 ? 200
-                : ScreenHelper.isTablet(context)
+                : ScreenHelper.isTablet(context)||ScreenHelper.isSmallTablet(context)
                     ? 250
-                    : 400,
+                    : 400.w,
           )),
     );
   }

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/app_color.dart';
 import 'package:protfolio/core/components/custom_button.dart';
 import 'package:protfolio/core/components/custom_drawer_widget.dart';
@@ -13,8 +16,10 @@ import 'package:protfolio/core/utils/constant_variable.dart';
 import 'package:protfolio/views/widget/background_video_widget.dart';
 import 'package:protfolio/views/widget/social_media_icon_widget.dart';
 import 'package:protfolio/views/widget/top_bar_widget.dart';
+import 'package:timelines_plus/timelines_plus.dart';
 import 'package:video_player/video_player.dart';
 
+import 'widget/portfolioTitleWidget.dart';
 import 'widget/profile_circle_image_widget.dart';
 
 class VideoBackgroundPage extends StatefulWidget {
@@ -57,48 +62,52 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-
           BackgroundVideoWidget(
               initializeVideoPlayerFuture: _initializeVideoPlayerFuture,
               controller: _controller),
           Column(
             children: [
               Padding(
-                padding: responsivePadding12(context),
+                padding: padding12(context),
                 child: TopBarWidget(scaffoldKey: _scaffoldKey),
               ),
-              Expanded( 
+              Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: responsivePadding12(context),
+                    padding: padding12(context),
                     child: Column(
-                      spacing: 16,
+                      spacing: 16.h,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // SizedBox(
                         //   height: MediaQuery.of(context).viewPadding.top,
                         // ),
 
-                        ScreenHelper.isMobile(context)
+                        ScreenHelper.isMobile(context) ||
+                                ScreenHelper.isSmallTablet(context)
                             ? ProfileCircleImage()
                             : SizedBox.shrink(),
                         // ScreenHelper.isMobile(context) ? space20H : space50H,
                         SizedBox(
-                          height:ScreenHelper.isDesktop(context)? MediaQuery.of(context).size.height* 0.9:null , // Set height manually
+                          height: ScreenHelper.isDesktop(context)
+                              ? MediaQuery.of(context).size.height * 0.9
+                              : null, // Set height manually
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                            spacing: 16,
+                            spacing: spaceing16(context),
                             children: [
                               ScreenHelper.isMobile(context)
                                   ? SizedBox.shrink()
                                   : ScreenHelper.isTablet(context)
-                                  ? space20W
-                                  : space60W  ,
+                                      ? space20W
+                                      : SizedBox(
+                                          width: 50.w,
+                                        ),
 
                               Expanded(
                                 flex: 3,
                                 child: Column(
+                                  spacing: 12.h,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -106,18 +115,22 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                                     CustomText(
                                       text: 'Hi, It\'s Sadia Bennthe Azad',
                                       style: poppinsBold.copyWith(
-                                          fontSize: responsiveFontSize24(context),
+                                          fontSize:
+                                              responsiveFontSize24(context),
                                           color: AppColors.kTextColor),
                                     ),
 
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         CustomText(
                                           text: 'I\'m ',
                                           style: poppinsSemiBold.copyWith(
-                                              fontSize: responsiveFontSize16(context),
+                                              fontSize:
+                                                  responsiveFontSize16(context),
                                               color: AppColors.kTextColor),
                                         ),
                                         Expanded(
@@ -125,7 +138,8 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
 
                                           child: DefaultTextStyle(
                                             style: poppinsSemiBold.copyWith(
-                                                fontSize: responsiveFontSize16(context),
+                                                fontSize: responsiveFontSize16(
+                                                    context),
                                                 color: AppColors.kPrimaryColor),
                                             child: AnimatedTextKit(
                                               animatedTexts: [
@@ -149,7 +163,8 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                                       text:
                                           "I am a passionate mobile app developer specializing in Flutter, with expertise in GetX and Bloc for state management. I focus on building responsive, high-performance applicationsMy projects incorporate deep linking, animations, AI-driven features,Push notification, real time conversation with socket io, Web Rtc, and optimized user experiences. I am constantly exploring new technologies to push the boundaries of app development.",
                                       style: poppinsMedium.copyWith(
-                                          fontSize: responsiveFontSize8(context)),
+                                          fontSize:
+                                              responsiveFontSize8(context)),
                                     ),
 
                                     ///========================social Media====================///
@@ -159,7 +174,8 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                                         ...List.generate(
                                           4,
                                           (index) {
-                                            final social = socialMediaList[index];
+                                            final social =
+                                                socialMediaList[index];
                                             return SocialMediaIconWidget(
                                               icon: social['icon'],
                                             );
@@ -167,10 +183,12 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                                         )
                                       ],
                                     ),
-                                    space12H,
+
                                     Align(
-                                      alignment: Alignment.centerLeft, // Aligns button to left, change as needed
-                                      child: IntrinsicWidth( // Ensures button width adjusts to text
+                                      alignment: Alignment
+                                          .centerLeft, // Aligns button to left, change as needed
+                                      child: IntrinsicWidth(
+                                        // Ensures button width adjusts to text
                                         child: CustomButton(
                                           onTap: () {},
                                           title: "Download CV",
@@ -184,22 +202,139 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
                                   ],
                                 ),
                               ),
-                              ScreenHelper.isMobile(context)
-                                  ? SizedBox.shrink()
-                                  : ScreenHelper.isTablet(context)
-                                  ? space20W
-                                  : space60W,
+
                               ///==========================Image=============================///
-                              ScreenHelper.isMobile(context)
+                              ScreenHelper.isMobile(context) ||
+                                      ScreenHelper.isSmallTablet(context)
                                   ? SizedBox.shrink()
                                   : Expanded(
-                                flex: 2,
-                                  child: ProfileCircleImage())
+                                      flex: 2, child: ProfileCircleImage())
                             ],
                           ),
                         ),
                         space16H,
-                        ProtfolioTitleWidget(title: "Education",)
+
+                        ///========================= Education============================///
+                        ProtfolioTitleWidget(
+                          title: "Education",
+                        ),
+
+                        Column(
+                          children: List.generate(events.length, (index) {
+                            return TimelineTile(
+
+                              oppositeContents: Text('opposite\ncontents'),
+
+                              contents: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+
+                                children: [
+                                  CustomText(text: events[index].year),
+                                  AnimatedContainer(duration: Duration(milliseconds: 300,
+                                  ),
+                                    padding: padding12(context),
+                                    decoration: BoxDecoration(
+
+                                      borderRadius: BorderRadius.circular(20.r ),
+                                      border: Border.all(color: AppColors.kPrimaryColor,width: 2,),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: AppColors.kPrimaryColor,
+                                            blurRadius: 10,offset: Offset(0, 0), )]
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(text:events[index].title ),
+                                        CustomText(text:events[index].description ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              node: TimelineNode(
+                                indicator: Container(
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: AppColors
+                                                .kPrimaryColor,
+                                            blurRadius: 10,
+                                            spreadRadius: 3)
+                                      ],
+                                      color: AppColors.kPrimaryColor,
+                                      shape: BoxShape.circle),
+                                ),
+                                startConnector: SolidLineConnector(color: AppColors.kPrimaryColor,),
+                                endConnector: SolidLineConnector(color: AppColors.kPrimaryColor,),
+                              ),
+                            );
+                          },),
+                        )
+                        // Row(mainAxisSize: MainAxisSize.min, children: [
+                        //   Expanded(
+                        //     child: Column(
+                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //         crossAxisAlignment: CrossAxisAlignment.end,
+                        //         mainAxisSize: MainAxisSize.max,
+                        //         children: List.generate(
+                        //           events.length,
+                        //               (index) => CustomText(
+                        //             text: events[index].description,
+                        //           ),
+                        //         )),
+                        //   ),
+                        //   Column(
+                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //     children: [
+                        //       ...List.generate(
+                        //         50,
+                        //         (index) => Column(
+                        //           children: [
+                        //             Container(
+                        //               height: 10,
+                        //               width: 2,
+                        //               decoration: BoxDecoration(
+                        //                 color: AppColors
+                        //                     .kPrimaryColor, /*borderRadius: BorderRadius.circular(10.r )*/
+                        //               ),
+                        //             ),
+                        //             index % 10 == 0
+                        //                 ? Container(
+                        //                     height: 10,
+                        //                     width: 10,
+                        //                     decoration: BoxDecoration(
+                        //                         boxShadow: [
+                        //                           BoxShadow(
+                        //                               color: AppColors
+                        //                                   .kPrimaryColor,
+                        //                               blurRadius: 10,
+                        //                               spreadRadius: 3)
+                        //                         ],
+                        //                         color: AppColors.kPrimaryColor,
+                        //                         shape: BoxShape.circle),
+                        //                   )
+                        //                 : SizedBox.shrink(),
+                        //           ],
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        //   Expanded(
+                        //     child: Column(
+                        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: List.generate(
+                        //           events.length,
+                        //           (index) => CustomText(
+                        //             text: events[index].description,
+                        //           ),
+                        //         )),
+                        //   )
+                        // ])
                       ],
                     ),
                   ),
@@ -210,19 +345,5 @@ class _VideoBackgroundPageState extends State<VideoBackgroundPage> {
         ],
       ),
     );
-  }
-}
-
-class ProtfolioTitleWidget extends StatelessWidget {
-  final String title;
-  const ProtfolioTitleWidget({
-    super.key, required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomText(text: title, style: poppinsBold.copyWith(
-    fontSize: responsiveFontSize24(context),
-                          color: AppColors.kTextColor),);
   }
 }

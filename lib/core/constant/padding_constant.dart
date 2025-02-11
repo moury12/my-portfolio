@@ -1,11 +1,34 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/constant/screen_helper.dart';
 
 EdgeInsets padding16 = EdgeInsets.all(16);
 EdgeInsets padding20 = EdgeInsets.all(20);
-EdgeInsets padding12 = EdgeInsets.all(12);
-EdgeInsets padding8 = EdgeInsets.all(8);
-EdgeInsets padding6 = EdgeInsets.all(6);
+EdgeInsets padding12(BuildContext context) =>
+    EdgeInsets.all(ScreenHelper.isMobile(context)
+        ? 12
+        : ScreenHelper.isSmallTablet(context)
+            ? 14
+            : ScreenHelper.isTablet(context)
+                ? 16
+                : 16.sp);
+EdgeInsets padding8(BuildContext context) =>
+    EdgeInsets.all(ScreenHelper.isMobile(context)
+        ? 8
+        : ScreenHelper.isSmallTablet(context)
+            ? 10
+            : ScreenHelper.isTablet(context)
+                ? 12
+                : 12.sp);
+EdgeInsets padding6(BuildContext context) =>
+    EdgeInsets.all(ScreenHelper.isMobile(context)
+        ? 6
+        : ScreenHelper.isSmallTablet(context)
+            ? 10
+            : ScreenHelper.isTablet(context)
+                ? 10
+                : 8.sp);
+
 EdgeInsets padding4 = EdgeInsets.all(4);
 EdgeInsets padding14 = EdgeInsets.all(14);
 EdgeInsets padding24 = EdgeInsets.all(24);
@@ -22,10 +45,3 @@ EdgeInsets padding6V = EdgeInsets.symmetric(vertical: 6);
 EdgeInsets padding4V = EdgeInsets.symmetric(vertical: 4);
 EdgeInsets padding16b24 = EdgeInsets.all(16).copyWith(bottom: 24);
 EdgeInsets paddingH16V6 = EdgeInsets.symmetric(horizontal: 16, vertical: 6);
-
-EdgeInsets responsivePadding12(BuildContext context) =>
-    ScreenHelper.isMobile(context)
-        ? padding12
-        : ScreenHelper.isTablet(context)
-            ? padding16
-            : padding24;

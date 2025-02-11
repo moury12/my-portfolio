@@ -59,7 +59,7 @@ class CustomButton extends StatelessWidget {
             vertical: marginVerticel, horizontal: marginHorizontal),
         alignment: Alignment.center,
         height: height,
-        padding: padding8 ,
+        padding: padding8(context) ,
 
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: shadowColor, blurRadius: blurRadius ?? 0)],

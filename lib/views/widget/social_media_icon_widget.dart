@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/app_color.dart';
 import 'package:protfolio/core/constant/image_constant.dart';
 import 'package:protfolio/core/constant/padding_constant.dart';
@@ -24,8 +25,8 @@ class _SocialMediaIconWidgetState extends State<SocialMediaIconWidget> {
       onExit: (_) => setState(() => isHovered = false),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        margin: padding8,
-        padding: padding6,
+        margin: padding8(context),
+        padding: padding6(context),
         decoration: BoxDecoration(
           color: Colors.black,
             boxShadow: [
@@ -39,14 +40,16 @@ class _SocialMediaIconWidgetState extends State<SocialMediaIconWidget> {
           widget.icon,
           height: ScreenHelper.isMobile(context)
               ? 15
-              : ScreenHelper.isTablet(context)
+              : ScreenHelper.isTablet(context)||ScreenHelper.isSmallTablet(context)
                   ? 18
-                  : 22,
+                  : 22.w,
           width: ScreenHelper.isMobile(context)
               ? 15
-              : ScreenHelper.isTablet(context)
+              : ScreenHelper.isSmallTablet(context)
                   ? 18
-                  : 22,
+                  :ScreenHelper.isTablet(context)
+                  ? 18
+                  : 22.w,
           color: AppColors.kPrimaryColor,
         ),
       ),

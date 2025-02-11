@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/constant/screen_helper.dart';
 
 SizedBox space24H = SizedBox(height: 24);
@@ -29,3 +30,13 @@ SizedBox responsiveSpace12w(BuildContext context) =>
         : ScreenHelper.isTablet(context)
             ? space16W
             : space20W;
+double spaceing16(BuildContext context) => ScreenHelper.isMobile(context) ||
+        ScreenHelper.isTablet(context) ||
+        ScreenHelper.isSmallTablet(context)
+    ? 16
+    : 16.sp;
+double spaceing12(BuildContext context) => ScreenHelper.isMobile(context)
+    ? 12
+    : ScreenHelper.isTablet(context) || ScreenHelper.isSmallTablet(context)
+        ? 16
+        : 16.sp;
