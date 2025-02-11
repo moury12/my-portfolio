@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:protfolio/core/constant/screen_helper.dart';
 
+double responsiveFontSize10(BuildContext context) =>
+    ScreenHelper.isMobile(context)
+        ? 10
+        : ScreenHelper.isTablet(context)
+        ? 12
+        : 14;
+double responsiveFontSize8(BuildContext context) =>
+    ScreenHelper.isMobile(context)
+        ? 8
+        : ScreenHelper.isTablet(context)
+        ? 10
+        : 12;
 double responsiveFontSize12(BuildContext context) =>
     ScreenHelper.isMobile(context)
         ? 12

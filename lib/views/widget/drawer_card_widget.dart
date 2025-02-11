@@ -16,6 +16,6 @@ class DrawerCardWidget extends StatelessWidget {
     return CustomText(
         text: drawerList[index]['text'],
         style: poppinsSemiBold,
-        fontSize: responsiveFontSize12(context));
+        fontSize: responsiveFontSize10(context));
   }
 }

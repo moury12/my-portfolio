@@ -22,7 +22,36 @@ class MyApp extends StatelessWidget {
       ).copyWith(
         primaryColor: AppColors.kPrimaryColor,
         primaryColorDark: AppColors.kPrimaryColor,
-        scaffoldBackgroundColor: Colors.black
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: TextTheme(
+          bodySmall: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          bodyMedium:const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          bodyLarge: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          labelSmall: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          labelMedium: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          labelLarge: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          displaySmall: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          displayMedium: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+          displayLarge: const TextStyle(
+            color: AppColors.kTextColor,
+          ),
+        ),
       ),
       home:  VideoBackgroundPage(),
     );
