@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protfolio/core/app_color.dart';
-import 'package:protfolio/views/dashboard_page.dart';
+import 'package:protfolio/views/home_page.dart';
 
 import 'package:protfolio/views/home_page.dart';
 
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home:  VideoBackgroundPage(),
+        home:  HomePage(),
       ),
     );
   }

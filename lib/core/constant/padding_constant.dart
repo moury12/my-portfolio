@@ -12,6 +12,14 @@ EdgeInsets padding12(BuildContext context) =>
             : ScreenHelper.isTablet(context)
                 ? 16
                 : 16.sp);
+EdgeInsets padding12H(BuildContext context) =>
+    EdgeInsets.symmetric(horizontal:ScreenHelper.isMobile(context)
+        ? 12
+        : ScreenHelper.isSmallTablet(context)
+            ? 14
+            : ScreenHelper.isTablet(context)
+                ? 16
+                : 16.sp);
 EdgeInsets padding8(BuildContext context) =>
     EdgeInsets.all(ScreenHelper.isMobile(context)
         ? 8
@@ -38,7 +46,6 @@ EdgeInsets padding6T = EdgeInsets.only(top: 6);
 EdgeInsets padding16V = EdgeInsets.symmetric(vertical: 16);
 EdgeInsets padding14H = EdgeInsets.symmetric(horizontal: 14);
 EdgeInsets padding14V = EdgeInsets.symmetric(vertical: 14);
-EdgeInsets padding12H = EdgeInsets.symmetric(horizontal: 12);
 EdgeInsets padding12V = EdgeInsets.symmetric(vertical: 12);
 EdgeInsets padding6H = EdgeInsets.symmetric(horizontal: 6);
 EdgeInsets padding6V = EdgeInsets.symmetric(vertical: 6);

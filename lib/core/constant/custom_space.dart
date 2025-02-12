@@ -40,3 +40,15 @@ double spaceing12(BuildContext context) => ScreenHelper.isMobile(context)
     : ScreenHelper.isTablet(context) || ScreenHelper.isSmallTablet(context)
         ? 16
         : 16.sp;
+double responsiveRadius12(BuildContext context) =>
+    ScreenHelper.isMobile(context)
+        ? 12
+        : ScreenHelper.isTablet(context) || ScreenHelper.isSmallTablet(context)
+            ? 16
+            : 16.r;
+double responsiveRadius50(BuildContext context) =>
+    ScreenHelper.isMobile(context)
+        ? 30
+        : ScreenHelper.isTablet(context) || ScreenHelper.isSmallTablet(context)
+            ? 30
+            : 50.r;

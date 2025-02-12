@@ -1,150 +1,227 @@
-// import 'dart:async';
-// import 'dart:math';
-// import 'dart:ui';
-//
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:protfolio/core/components/custom_text.dart';
-// import 'package:protfolio/core/constant/text_style_constant.dart';
-// import 'package:protfolio/core/constant/text_style_constant.dart';
-// import 'package:protfolio/core/constant/text_style_constant.dart';
-// import 'package:protfolio/models/star_model.dart';
-//
-// class HomePage extends StatefulWidget {
-//   const HomePage({super.key});
-//
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-//   AnimationController? galaxyController;
-//   List<StarModel> stars = [];
-//   final int numOfStars = 100;
-//   final Random random = Random();
-//   late Size screenSize;
-//   Timer? animationThrottleTimer;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     galaxyController = AnimationController(
-//       vsync: this,
-//       duration: Duration(seconds: 2),
-//     )..repeat(reverse: true);
-//
-//     galaxyController!.addListener(() {
-//       // Throttle updates to avoid frequent setState calls
-//       if (animationThrottleTimer == null || !animationThrottleTimer!.isActive) {
-//         animationThrottleTimer = Timer(Duration(milliseconds: 16), () {
-//           setState(() {
-//             for (var star in stars) {
-//               star.move(screenSize);
-//             }
-//           });
-//         });
-//       }
-//     });
-//   }
-//
-//   void initializeStars(Size size) {
-//     screenSize = size;
-//     stars = List.generate(
-//       numOfStars,
-//           (index) => randomStar(),
-//     );
-//   }
-//
-//   StarModel randomStar() {
-//     return StarModel(
-//       position: Offset(
-//         random.nextDouble() * screenSize.width,
-//         random.nextDouble() * screenSize.height,
-//       ),
-//       speed: Offset(
-//         (random.nextDouble() - 0.5) * 2, // Random movement in x
-//         (random.nextDouble() - 0.5) * 2, // Random movement in y
-//       ),
-//       size: random.nextDouble() * 1 + 0.5,
-//       brightness: random.nextDouble(),
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final constraints = MediaQuery.of(context).size;
-//
-//     // Initialize stars only if the screen size changes
-//     if (stars.isEmpty || screenSize.width != constraints.width || screenSize.height != constraints.height) {
-//       initializeStars(constraints);
-//     }
-//
-//     return Scaffold(
-//       body: RepaintBoundary(
-//         child: AnimatedBuilder(
-//           animation: galaxyController!,
-//           builder: (context, child) {
-//             return CustomPaint(
-//               painter: GalaxyPainter(stars: stars),
-//               child: Column(
-//                 children: [
-//                   SizedBox(height: MediaQuery.of(context).viewPadding.top),
-//                   Row(
-//                     spacing: 16.0,
-//                     children: [
-//                       CustomText(text: 'About', style: tavirajSemiBold, fontSize: 12),
-//                       CustomText(text: 'Skill', style: tavirajSemiBold, fontSize: 12),
-//                       CustomText(text: 'Contact', style: tavirajSemiBold, fontSize: 12),
-//                     ],
-//                   ),
-//                   ClipRect(
-//                     child: BackdropFilter(
-//                       filter: ImageFilter.blur(
-//                         sigmaX: 5.0,
-//                         sigmaY: 5.0,
-//                         tileMode: TileMode.decal,
-//                       ),
-//                       child: Container(
-//                         alignment: Alignment.center,
-//                         width: 200.0,
-//                         height: 200.0,
-//                         child: const Text('Hello World'),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-//
-//   @override
-//   void dispose() {
-//     galaxyController!.dispose();
-//     animationThrottleTimer?.cancel();  // Cancel throttle timer on dispose
-//     super.dispose();
-//   }
-// }
-//
-// class GalaxyPainter extends CustomPainter {
-//   final List<StarModel> stars;
-//
-//   GalaxyPainter({super.repaint, required this.stars});
-//
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     final Paint paint = Paint()..maskFilter = MaskFilter.blur(BlurStyle.solid, 2.0);
-//     for (var star in stars) {
-//       paint.color = Colors.white.withOpacity(star.brightness);
-//       canvas.drawCircle(star.position, star.size, paint);
-//     }
-//   }
-//
-//   @override
-//   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-// }
-//
-//
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:protfolio/core/app_color.dart';
+import 'package:protfolio/core/components/custom_button.dart';
+import 'package:protfolio/core/components/custom_drawer_widget.dart';
+import 'package:protfolio/core/components/custom_text.dart';
+import 'package:protfolio/core/constant/custom_space.dart';
+import 'package:protfolio/core/constant/fontsize_constant.dart';
+import 'package:protfolio/core/constant/padding_constant.dart';
+import 'package:protfolio/core/constant/screen_helper.dart';
+import 'package:protfolio/core/constant/text_style_constant.dart';
+import 'package:protfolio/core/utils/constant_variable.dart';
+import 'package:protfolio/views/education_experience_part.dart';
+import 'package:protfolio/views/widget/background_video_widget.dart';
+import 'package:protfolio/views/widget/experience_education_timeline_item_widget.dart';
+import 'package:protfolio/views/widget/social_media_icon_widget.dart';
+import 'package:protfolio/views/widget/top_bar_widget.dart';
+import 'package:timelines_plus/timelines_plus.dart';
+import 'package:video_player/video_player.dart';
+
+import 'widget/portfolioTitleWidget.dart';
+import 'widget/profile_circle_image_widget.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the video player controller with an asset or network video.
+    _controller = VideoPlayerController.asset('assets/videos/galaxy.mp4')
+      ..setLooping(
+        true,
+      )
+      ..setPlaybackSpeed(.5) // Loop the video
+      ..setVolume(0.0); // Mute the video if you don't want sound
+
+    _initializeVideoPlayerFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose(); // Dispose the controller when done
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: CustomDrawer(),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          BackgroundVideoWidget(
+              initializeVideoPlayerFuture: _initializeVideoPlayerFuture,
+              controller: _controller),
+          Column(
+            children: [
+              Padding(
+                padding: padding12(context),
+                child: TopBarWidget(scaffoldKey: _scaffoldKey),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: padding12(context),
+                    child: Column(
+                      spacing: 16.h,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).viewPadding.top,
+                        // ),
+
+                        ScreenHelper.isMobile(context) ||
+                                ScreenHelper.isSmallTablet(context)
+                            ? ProfileCircleImage()
+                            : SizedBox.shrink(),
+                        // ScreenHelper.isMobile(context) ? space20H : space50H,
+                        FullHeightSizedBoxWidget(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            spacing: spaceing16(context),
+                            children: [
+                              ScreenHelper.isMobile(context)
+                                  ? SizedBox.shrink()
+                                  : ScreenHelper.isTablet(context)
+                                      ? space20W
+                                      : SizedBox(
+                                          width: 50.w,
+                                        ),
+
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  spacing: 12.h,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ///==============================name=========================///
+                                    CustomText(
+                                      text: 'Hi, It\'s Sadia Bennthe Azad',
+                                      style: poppinsBold.copyWith(
+                                          fontSize:
+                                              responsiveFontSize24(context),
+                                          color: AppColors.kTextColor),
+                                    ),
+
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          text: 'I\'m ',
+                                          style: poppinsSemiBold.copyWith(
+                                              fontSize:
+                                                  responsiveFontSize16(context),
+                                              color: AppColors.kTextColor),
+                                        ),
+                                        Expanded(
+                                          ///==============================Designation=========================///
+
+                                          child: DefaultTextStyle(
+                                            style: poppinsSemiBold.copyWith(
+                                                fontSize: responsiveFontSize16(
+                                                    context),
+                                                color: AppColors.kPrimaryColor),
+                                            child: AnimatedTextKit(
+                                              animatedTexts: [
+                                                TyperAnimatedText(
+                                                    'Mobile Application Developer'),
+                                                TyperAnimatedText(
+                                                    'Flutter Cross platform Developer'),
+                                                // WavyAnimatedText('Mobile Application Developer'),
+                                                // WavyAnimatedText('Flutter Cross platform Developer'),
+                                              ],
+                                              isRepeatingAnimation: true,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    ///==============================description=========================///
+
+                                    CustomText(
+                                      text:
+                                          "I am a passionate mobile app developer specializing in Flutter, with expertise in GetX and Bloc for state management. I focus on building responsive, high-performance applicationsMy projects incorporate deep linking, animations, AI-driven features,Push notification, real time conversation with socket io, Web Rtc, and optimized user experiences. I am constantly exploring new technologies to push the boundaries of app development.",
+                                      style: poppinsMedium.copyWith(
+                                          fontSize:
+                                              responsiveFontSize8(context)),
+                                    ),
+
+                                    ///========================social Media====================///
+
+                                    Row(
+                                      children: [
+                                        ...List.generate(
+                                          4,
+                                          (index) {
+                                            final social =
+                                                socialMediaList[index];
+                                            return SocialMediaIconWidget(
+                                              icon: social['icon'],
+                                            );
+                                          },
+                                        )
+                                      ],
+                                    ),
+
+                                    Align(
+                                      alignment: Alignment
+                                          .centerLeft, // Aligns button to left, change as needed
+                                      child: IntrinsicWidth(
+                                        // Ensures button width adjusts to text
+                                        child: CustomButton(
+                                          onTap: () {},
+                                          title: "Download CV",
+                                          // shadowColor: AppColors.kPrimaryColor,
+                                          // blurRadius: 20,
+                                          // fillColor: Colors.black,
+                                          // textColor: AppColors.kPrimaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              ///==========================Image=============================///
+                              ScreenHelper.isMobile(context) ||
+                                      ScreenHelper.isSmallTablet(context)
+                                  ? SizedBox.shrink()
+                                  : Expanded(
+                                      flex: 2, child: ProfileCircleImage())
+                            ],
+                          ),
+                        ),
+                        space16H,
+
+                        ///========================= Education============================///
+                        EducationExperiencePart()
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
