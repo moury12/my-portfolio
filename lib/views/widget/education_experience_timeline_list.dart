@@ -15,22 +15,42 @@ class EducationTimeLineWidget extends StatefulWidget {
 
 class _EducationTimeLineWidgetState extends State<EducationTimeLineWidget> {
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  List<TimelineEvent> items = [];
+  int currentIndex =0;
+  @override
+  void initState() {
+_addItemsOneByOne();
+    super.initState();
+  }
+  void _addItemsOneByOne() async{
+    for(var event in widget.timeLineList){
+      await Future.delayed(Duration(milliseconds: 300));
+      if(mounted){
+        listKey.currentState?.insertItem(items.length,duration: Duration(milliseconds: 500));
+        setState(() {
+          items.add(event);
+        });
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return AnimatedList(
-      initialItemCount: widget.timeLineList.length,
+    return AnimatedList(shrinkWrap: true,
+      initialItemCount: items.length,
       itemBuilder: (context, index, animation) {
         bool isLeft = index.isEven;
+
+
         return TimelineTile(
           oppositeContents: isLeft
               ? ExperceniceEducationTimeLineItem(
-            timelineModel: widget.timeLineList[index],
-            isLeft: isLeft,
+            timelineModel:items[index],
+            isLeft: isLeft, animation: animation,
           )
               : SizedBox.shrink(),
           contents: !isLeft
               ? ExperceniceEducationTimeLineItem(
-            timelineModel: widget.timeLineList[index],
+            timelineModel:items[index], animation: animation,
             isLeft: isLeft,
           )
               : SizedBox.shrink(),

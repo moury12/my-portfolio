@@ -10,18 +10,22 @@ import 'package:protfolio/models/time_line_model.dart';
 
 class ExperceniceEducationTimeLineItem extends StatefulWidget {
   final TimelineEvent timelineModel;
+  final Animation<double> animation;
   final bool isLeft;
   const ExperceniceEducationTimeLineItem({
     super.key,
     required this.timelineModel,
     required this.isLeft,
+    required this.animation,
   });
 
   @override
-  State<ExperceniceEducationTimeLineItem> createState() => _ExperceniceEducationTimeLineItemState();
+  State<ExperceniceEducationTimeLineItem> createState() =>
+      _ExperceniceEducationTimeLineItemState();
 }
 
-class _ExperceniceEducationTimeLineItemState extends State<ExperceniceEducationTimeLineItem> {
+class _ExperceniceEducationTimeLineItemState
+    extends State<ExperceniceEducationTimeLineItem> {
   bool isHovered = false;
   @override
   Widget build(BuildContext context) {
@@ -38,36 +42,51 @@ class _ExperceniceEducationTimeLineItemState extends State<ExperceniceEducationT
             style: poppinsSemiBold,
             fontSize: responsiveFontSize10(context),
           ),
-          MouseRegion(
-            onEnter: (_) => setState(() => isHovered = true),
-            onExit: (_) => setState(() => isHovered = false),
-            child: AnimatedContainer(
-              duration: Duration(
-                milliseconds: 300,
-              ),
-              padding: padding12(context),
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius:
-                      BorderRadius.circular(responsiveRadius50(context)),
-                  border: Border.all(
-                    color: AppColors.kPrimaryColor,
-                    width: 2,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: isHovered?AppColors.kPrimaryColor:AppColors.kPrimaryColor.withOpacity(.7),
-                      blurRadius:isHovered?15: 8,
+          SlideTransition(
+            position: widget.animation.drive(Tween<Offset>(
+                    begin: Offset(widget.isLeft ? -1 : 1, 0), end: Offset(0, 0))
+                .chain(CurveTween(curve: Curves.easeIn))),
+            child: MouseRegion(
+              onEnter: (_) => setState(() => isHovered = true),
+              onExit: (_) => setState(() => isHovered = false),
+              child: AnimatedContainer(
+                duration: Duration(
+                  milliseconds: 300,
+                ),
+                padding: padding12(context),
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius:
+                        BorderRadius.circular(responsiveRadius50(context)),
+                    border: Border.all(
+                      color: AppColors.kPrimaryColor,
+                      width: 2,
                     ),
-                  ]),
-              child: Column(
-                spacing: 12.h ,
-                crossAxisAlignment:/* isLeft ? CrossAxisAlignment.end : */CrossAxisAlignment.start,
-                children: [
-                  CustomText(text: widget.timelineModel.title,style: poppinsBold,fontSize: responsiveFontSize12(context),),
-                  CustomText(text: widget.timelineModel.description,style: poppinsRegular,
-                    fontSize: responsiveFontSize8(context),),
-                ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: isHovered
+                            ? AppColors.kPrimaryColor
+                            : AppColors.kPrimaryColor.withOpacity(.7),
+                        blurRadius: isHovered ? 15 : 8,
+                      ),
+                    ]),
+                child: Column(
+                  spacing: 12.h,
+                  crossAxisAlignment: /* isLeft ? CrossAxisAlignment.end : */
+                      CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: widget.timelineModel.title,
+                      style: poppinsBold,
+                      fontSize: responsiveFontSize12(context),
+                    ),
+                    CustomText(
+                      text: widget.timelineModel.description,
+                      style: poppinsRegular,
+                      fontSize: responsiveFontSize8(context),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
